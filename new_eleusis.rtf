@@ -1,0 +1,59 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\margl1440\margr1440\vieww25900\viewh19560\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 Cards
+\b0 \
+\
+A card is represented by a value, A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, followed by a suit, C, D, H, S. Letters must be uppercase.\
+Colors are represented by B for black and R for Red.\
+There are three special variables:\
+current \'97 the card being tested\
+previous \'97 the most recent successfully played card\
+previous2 \'97 the next most recent successfully played card.\
+\
+
+\b Tree structure\
+
+\b0 \
+To limit (somewhat) the complexity of rules, rules may be constructed only from a finite number of functions. The complete list, which might be expanded somewhat in the future, is\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	\'95	}suit(card) \'97 returns the suit of a card, as a single letter: C, D, H, or S for Clubs, Diamonds, Hearts, or Spades\
+{\listtext	\'95	}color(card) \'97 returns the color of a card, as a single letter: B for black, R for red\
+{\listtext	\'95	}value(card) \'97 returns the integer value of a card, from 1 (Ace) to 13 (King)\
+{\listtext	\'95	}is_royal(card) \'97 returns True if the card is a Jack, Queen, or King\
+{\listtext	\'95	}equal(a, b) \'97 tests if two cards, suits, colors, or values are equal\
+{\listtext	\'95	}less(a, b) \'97 tests if a < b; cards are compared first by suit, C < D < H < S, then if suits are equal, by value; for colors, B < R\
+{\listtext	\'95	}greater(a, b) \'97 same as less(b, a)\
+{\listtext	\'95	}plus1(x) \'97 returns the next higher value, suit, or card in a suit; error if there is none higher\
+{\listtext	\'95	}minus(x) \'97 returns the next lower value, suit, or card in a suit; error if there is none lower\
+{\listtext	\'95	}even(card) \'97 tests if the cards numeric value is even\
+{\listtext	\'95	}odd(card) \'97 tests if the cards numeric value is odd\
+{\listtext	\'95	}andf(a, b) \'97 True if both a and b are true\
+{\listtext	\'95	}orf(a, b) \'97 True if either or both a and b are true\
+{\listtext	\'95	}notf(a) \'97 True if a is False\
+{\listtext	\'95	}iff(test, a, b) \'97 if the test is True, evaluate and return a, else evaluate and return b\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+The root of a Tree, and every internal (non-leaf) node, must contain one of the above functions. Leaves may contain cards, colors, integers, or Booleans. Example:\
+	rule = Tree(orf, Tree(equal, Tree(color, 'previous'), 'R'), Tree(equal, Tree(color, 'current'), 'R'))\
+\
+Trees have one important method:\
+	rule.evaluate((previous2, previous, card)) \'97 evaluate the rule with this tuple of values\
+\
+A parse method is provided as an easier and somewhat less error-prone way of constructing a Tree. As an example, the above rule can be written as\
+	rule = parse("if(equal(color(previous), B), equal(color(current), R), True)")\
+\
+The parser allows the following simplifications:\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0\cf0 {\listtext	\'95	}Strings representing cards or colors should not be quoted\
+{\listtext	\'95	}The following alternate representations for functions are supported: and=andf, or=orf, not=notf, if=iff, and equals-equal. All but the last of these were given names ending in \'91f\'92 to avoid Python\'92s reserved words.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+No methods have been provided for manipulating Trees, for example, for changing one rule into a slightly different rule. Any such operations must be developed by the user.}
