@@ -15,7 +15,7 @@ Create a package in the players folder with your player name, and make sure to h
 
 ## API's need to expose
 
-* * **set_playerid( player__id )** *
+* ***set_playerid( player__id )***
    This method is called from God which will give player Id, which we use for further communication with God.
 * * **set_cards( cards )** *
    God will give 13 cards before start of the game, you can use any of these 13 cards any number of times, but you need to use only given 13 cards.
