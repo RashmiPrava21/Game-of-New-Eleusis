@@ -62,5 +62,6 @@ A Player who has a minimum score is the winner.
 * For the first 20 cards, player don't get any points.
 * After rule is returned, your rule is validated with all possible cards. you will get  ***-(num__correct / all_possible_cards)*75***
 
-## How to run
+## How to run ##
 
+If you followed and understood all the above steps, then run Driver.py file, which registers all players to the God and starts the game.  
