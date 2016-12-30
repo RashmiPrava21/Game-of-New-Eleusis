@@ -1,7 +1,9 @@
 import new_eleusis
 import random
 
+
 class God:
+
     instantiated = False
     instance = False
 
@@ -119,6 +121,18 @@ class God:
                 player_score = 2
         self.__player_score[player_id] += player_score
 
+    def initialise_board_state(self):
+        for card0 in self.get_shuffled_deck():
+            for card1 in self.get_shuffled_deck():
+                for card2 in self.get_shuffled_deck():
+                    result = self.__rule_obj.evaluate( (card0, card1, card2))
+                    result = bool(result)
+                    if result is True:
+                        self.__board_state.append((card0, []))
+                        self.__board_state.append((card1, []))
+                        self.__board_state.append((card2, []))
+                        return
+
     def play(self):
         """
         After registering all the players, calling play method will start the game
@@ -130,16 +144,22 @@ class God:
         for i in range(0, deck_count):
             cards_deck.extend(self.get_shuffled_deck())
         random.shuffle(cards_deck)
-
+        # intialising the player score
+        for i in range(0, len(self.__players)):
+            self.__player_score.append(0)
         # start distributing 13 cards to each player
         for i in range(0, len(self.__players)):
             player_cards = cards_deck[i:i+13]
             self.__card.append(player_cards)
             self.__players[i].set_cards(player_cards)
 
+        # initialising board state with three initial cards that will statify the rule
+        self.initialise_board_state()
+
         # get ready step, this method help players to do any preprocess step
         for i in range(0, len(self.__players)):
             self.__players[i].pre_step()
+
         game_done = False
         while self.__rounds_played < 200:
             for i in range(0, len(self.__players)):
@@ -148,12 +168,14 @@ class God:
                     game_done = True
                     break
                 result = self.__validate_with_rule(card)
+                result = bool(result)
+                self.__players[i].card_result(bool(result))
                 self.__update_score(i, result)
                 self.__update_board_state(card, result)
-                if game_done is True:
-                    break
+            if game_done is True:
+                break
             self.__rounds_played += 1
-
+        print str(self.__rounds_played) + ' rounds played...'
         for i in range(0, len(self.__players)):
             rule = self.__players[i].get_rule()
             self.__player_score[i] -= self.test_hypothesis(rule)
@@ -176,13 +198,13 @@ class God:
                 for card2 in self.get_shuffled_deck():
                     # use our_rule to pick a card, then play that card. Test against dealer_rule
                     god_result = self.__rule_obj.evaluate((card0, card1, card2))
-                    if (god_result == 'False') or (god_result == False):
+                    if (god_result == 'False') or (god_result is False):
                         god_result = False
                     else:
                         god_result = True
                     player_rule_obj = new_eleusis.parse(player_rule_expression)
                     our_result = player_rule_obj.evaluate((card0, card1, card2))
-                    if (our_result == 'False') or (our_result == False):
+                    if (our_result == 'False') or (our_result is False):
                         our_result = False
                     else:
                         our_result = True
@@ -192,6 +214,9 @@ class God:
         # print results
         percent_correct = (num_correct * 1.0) / trials
         return percent_correct * 75
+
+    def get_scores(self):
+        return self.__player_score
 
 if __name__ == '__main__':
     god_instance = God()

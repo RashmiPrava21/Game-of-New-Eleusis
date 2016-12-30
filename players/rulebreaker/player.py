@@ -37,7 +37,8 @@ class Player:
         :return:
         """
         board_state = self.god_instance.get_board_state()
-        self.decision_tree.add(board_state[-3][0], board_state[-2][0], board_state[-1][0])
+        self.decision_tree.add(board_state[-3][0], board_state[-2][0], board_state[-1][0], True)
+        self.decision_tree.build_tree()
         self.our_rule_expression = self.decision_tree.get_hypo_expression()
 
     def play_card(self):
@@ -54,17 +55,19 @@ class Player:
         for i in range(0,len(self.our_hand)):
             our_rule_obj = new_eleusis.parse(self.our_rule_expression)
             board_state = self.god_instance.get_board_state()
-            our_result = our_rule_obj.evaluate(board_state[-2][0], board_state[-1][0], self.our_hand[i])
+            our_result = our_rule_obj.evaluate((board_state[-2][0], board_state[-1][0], self.our_hand[i]))
             our_result = bool(our_result)
             if our_result == guess:
                 self.card_played = self.our_hand[i]
                 return self.our_hand[i]
+        self.card_played = self.our_hand[0]
         return self.our_hand[0]
 
     def card_result(self, result):
         result = bool(result)
         board_state = self.god_instance.get_board_state()
-        self.decision_tree.add( board_state[-2][0], board_state[-1][0], self.card_played)
+        self.decision_tree.add( board_state[-2][0], board_state[-1][0], self.card_played, result)
+        self.decision_tree.build_tree()
         self.our_rule_expression = self.decision_tree.get_hypo_expression()
         if result:
             self.num_consecutive_correct += 1

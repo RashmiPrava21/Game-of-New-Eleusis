@@ -17,3 +17,4 @@ if __name__ == '__main__':
     god_instance = God.God.get_instance()
     god_instance.set_rule("if(equal(color(previous), B), equal(color(current), R), equal(color(current), B))")
     god_instance.play()
+    print god_instance.get_scores()
