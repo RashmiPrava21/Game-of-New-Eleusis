@@ -1,7 +1,7 @@
 # Game-of-New-Eleusis #
 ------
 New Eleusis is a slightly simplified version of Eleusis game.
-
+ 
 If you want to build another Eleusis player and want to compete against other players, please follow these steps
 
 * Folder structure
@@ -9,6 +9,7 @@ If you want to build another Eleusis player and want to compete against other pl
 * Understanding internal data structure
 * Syntax and Semantics of rule expression
 * Scoring
+* how to run
 
 ## Folder structure ##
 Create a package in the players folder with your player name, and make sure to have a player.py file and fully implemented Player class, we will discuss what makes a Player class fully implemented.
@@ -60,4 +61,6 @@ A Player who has a minimum score is the winner.
 * For every right card player will get +1 points
 * For the first 20 cards, player don't get any points.
 * After rule is returned, your rule is validated with all possible cards. you will get  ***-(num__correct / all_possible_cards)*75***
+
+## How to run
 
