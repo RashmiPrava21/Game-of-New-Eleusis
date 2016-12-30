@@ -28,7 +28,7 @@ class God:
         because in game there will be only one God
         :return: The instance of the God class
         """
-        if God.instantiated:
+        if God.instantiated is False:
             God.instance = God()
             God.instantiated = True
         return God.instance
