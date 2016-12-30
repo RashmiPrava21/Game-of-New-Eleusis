@@ -23,7 +23,7 @@ Create a package in the players folder with your player name, and make sure to h
   After cards distribution, God will call pre_step method, so that players can do any preprocessing steps here.
 * ***play_card()***
 When God calls this method you need to return the card or None, None returns says player is ready to return rule instead of the card.
-* *** get_rule() ***
+* ***get_rule()***
 When God calls this method player need to return the rule, it currently has.
 * ***card_result( result )***
 When you return card using play_card method, the feedback for the card is given using card_result method. feedback is boolean value True says return card is valid, False says return card is invalid.
